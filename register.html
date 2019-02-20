@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Users Management System using JS | Login</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="col-md-12">
+        <h1>Register</h1>
+        <form class="form" action="index.html" method="post">
+          <div class="form-group">
+            <label>Username:</label>
+            <input type="text" class="form-control" id="username">
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input type="text" class="form-control" id="email">
+          </div>
+          <div class="form-group">
+            <label>Phone:</label>
+            <input type="text" class="form-control" id="phone">
+          </div>
+          <div class="form-group">
+            <label>Password:</label>
+            <input type="password" class="form-control" id="password">
+          </div>
+          <div class="form-group">
+            <label>Confirm Password:</label>
+            <input type="password" class="form-control" id="c_password">
+          </div>
+          <div class="form-group">
+            <a href="#" class="btn btn-success" id="register_submit">Submit</a>
+            <a href="index.html" class="btn btn-link">Mainpage</a>
+            <a href="login.html" class="btn btn-link">Login Instead</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let submit_btn = document.getElementById("register_submit");
+      submit_btn.addEventListener("click", registerUser);
+
+      function registerUser() {
+        // VALIDATION
+        let username = document.getElementById("username");
+        let email = document.getElementById("email");
+        let phone = document.getElementById("phone");
+        let password = document.getElementById("password");
+        let c_password = document.getElementById("c_password");
+        let is_allowed = true;
+
+        // check All fields are required
+          if( username.value == "") {
+            is_allowed = false;
+            username.style.borderColor = "#e00623";
+          } else {
+            username.style.borderColor = "#ccc";
+          }
+          if(email.value == "") {
+            is_allowed = false;
+            email.style.borderColor = "#e00623";
+          } else {
+            email.style.borderColor = "#ccc";
+          }
+          if(phone.value == "") {
+            is_allowed = false;
+            phone.style.borderColor = "#e00623";
+          } else {
+            phone.style.borderColor = "#ccc";
+          }
+          if(password.value == "") {
+            is_allowed = false;
+            password.style.borderColor = "#e00623";
+          } else {
+            password.style.borderColor = "#ccc";
+          }
+          if(c_password.value == "") {
+            is_allowed = false;
+            c_password.style.borderColor = "#e00623";
+          } else {
+            c_password.style.borderColor = "#ccc";
+          }
+
+
+
+          // validate email
+          var regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          if(regEx.test(String(email.value).toLowerCase()) == false) {
+            is_allowed = false;
+            email.style.borderColor = "#e00623";
+          } else {
+            email.style.borderColor = "#ccc";
+          }
+
+          // password Validation
+          var password_regEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,100}$/;
+          if(password_regEx.test(password.value) == false) {
+            is_allowed = false;
+            password.style.borderColor = "#e00623";
+          } else {
+            password.style.borderColor = "#ccc";
+          }
+
+          if(password.value !== c_password.value) {
+            is_allowed = false;
+            password.style.borderColor = "#e00623";
+            c_password.style.borderColor = "#e00623";
+          } else {
+            password.style.borderColor = "#ccc";
+            c_password.style.borderColor = "#ccc";
+          }
+
+          if(is_allowed) {
+            // validation is ok
+
+            // create an object
+            let new_user = {
+              "username": username.value,
+              "email": email.value,
+              "phone": phone.value,
+              "password": password.value
+            };
+
+            // save array to localStorage
+            if(localStorage.users === undefined) {
+              localStorage.users = JSON.stringify([]);
+            }
+            let current_users_arr = JSON.parse(localStorage.users);
+            current_users_arr.push(new_user);
+            localStorage.users = JSON.stringify(current_users_arr);
+
+            // show success message
+            alert("Your Account is being Created Successfully!");
+
+            // redirect user to login page
+            window.location = "login.html";
+          } else {
+            alert("Something went wrong!");
+          }
+
+        // VALIDATION ENDS HERE
+      }
+    </script>
+  </body>
+</html>

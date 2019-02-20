@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Users Management System using JS | Login</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="col-md-12">
+        <h1>Login</h1>
+        <form action="#" method="post">
+          <div class="form-group">
+            <label>Username:</label>
+            <input type="text" class="form-control" id="username">
+          </div>
+          <div class="form-group">
+            <label>Password:</label>
+            <input type="password" class="form-control" id="password">
+          </div>
+          <div class="form-group">
+            <a href="#" class="btn btn-success" id="login_submit">Submit</a>
+            <a href="index.html" class="btn btn-link">Mainpage</a>
+            <a href="register.html" class="btn btn-link">Register Instead</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      let submit_btn = document.getElementById("login_submit");
+      login_submit.addEventListener("click", loginUser);
+
+      function loginUser() {
+        // VALIDATION
+        let username = document.getElementById("username");
+        let password = document.getElementById("password");
+        let is_allowed = true;
+
+        // check All fields are required
+          if( username.value == "") {
+            is_allowed = false;
+            username.style.borderColor = "#e00623";
+          } else {
+            username.style.borderColor = "#ccc";
+          }
+          if(password.value == "") {
+            is_allowed = false;
+            password.style.borderColor = "#e00623";
+          } else {
+            password.style.borderColor = "#ccc";
+          }
+
+          if(is_allowed) {
+            // validation is ok
+
+            // check if user is available
+            let users = JSON.parse(localStorage.users);
+            let user_found = false;
+
+            users.forEach(function(user) {
+              if(user.username === username.value && user.password === password.value) {
+                user_found = true;
+              }
+            })
+
+            if(user_found) {
+              // save user to session
+              sessionStorage.is_logged_in = true;
+              alert("You have been Logged In successfully");
+              window.location = "main.html";
+            } else {
+              alert("Username or Password is incorrect");
+            }
+          }
+        // VALIDATION ENDS HERE
+      }
+    </script>
+  </body>
+</html>
